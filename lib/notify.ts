@@ -3,7 +3,7 @@
 // Uses Resend for email and Twilio for WhatsApp.
 // Fill in your real credentials in .env.local
 
-const OWNER_EMAIL    = process.env.OWNER_EMAIL    || 'owner@yourdomain.com';
+const OWNER_EMAIL    = process.env.OWNER_EMAIL    || 'it@jaetravel.co.ke';
 const OWNER_WHATSAPP = process.env.OWNER_WHATSAPP || '+254757662968'; // your WhatsApp number with country code
 const APP_URL        = process.env.NEXTAUTH_URL   || 'https://saas-woad-nine.vercel.app';
 

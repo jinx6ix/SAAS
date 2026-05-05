@@ -1,6 +1,7 @@
 'use client';
 // app/admin/page.tsx — Full Owner Admin Dashboard
 import { useEffect, useState, useCallback } from 'react';
+export const dynamic = 'force-dynamic';   // ✅ add this line
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';

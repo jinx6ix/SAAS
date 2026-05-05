@@ -10,8 +10,8 @@ const PLANS = [
 ];
 
 const PAYMENT_DETAILS = {
-  mpesa: { type:'M-Pesa Send Money', name:'YOUR FULL NAME', number:'+254 7XX XXX XXX', instruction:'Send money to the number above. Use your company name as the reference.' },
-  bank:  { bank:'Co-operative Bank of Kenya', branch:'YOUR BRANCH', accountName:'YOUR NAME', accountNo:'XXXXXXXXXX', swiftCode:'KCOOKENA', instruction:'Transfer the exact amount. Use your company name as the payment reference.' },
+  mpesa: { type:'M-Pesa Send Money', name:'Ian Iraya Wainaina', number:'+254 757 662 968', instruction:'Send money to the number above. Use your company name as the reference.' },
+  bank:  { bank:'Co-operative Bank of Kenya', branch:'YOUR BRANCH', accountName:'Ian Iraya Wainaina', accountNo:'XXXXXXXXXX', swiftCode:'KCOOKENA', instruction:'Transfer the exact amount. Use your company name as the payment reference.' },
   paypal:{ email:'irayaian8@gmail.com', instruction:'Send as Friends & Family to avoid fees. Include your company name in the note.' },
 };
 

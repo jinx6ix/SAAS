@@ -55,7 +55,7 @@ export default function RegisterPage() {
                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Company Email *</label>
                   <input type="email" name="companyEmail" value={form.companyEmail} onChange={change} required className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"/></div>
                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Phone (optional)</label>
-                  <input type="tel" name="companyPhone" value={form.companyPhone} onChange={change} placeholder="+254 7XX XXX XXX" className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"/></div>
+                  <input type="tel" name="companyPhone" value={form.companyPhone} onChange={change} placeholder="+254 757 662 968" className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"/></div>
                 <button type="button" onClick={()=>setStep(2)} disabled={!form.companyName||!form.companySlug||!form.companyEmail||slugOk===false}
                   className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-gray-200 disabled:text-gray-400 text-white font-semibold py-3 rounded-lg">Continue →</button>
               </div>

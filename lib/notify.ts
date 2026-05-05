@@ -4,8 +4,8 @@
 // Fill in your real credentials in .env.local
 
 const OWNER_EMAIL    = process.env.OWNER_EMAIL    || 'owner@yourdomain.com';
-const OWNER_WHATSAPP = process.env.OWNER_WHATSAPP || '+254700000000'; // your WhatsApp number with country code
-const APP_URL        = process.env.NEXTAUTH_URL   || 'http://localhost:3000';
+const OWNER_WHATSAPP = process.env.OWNER_WHATSAPP || '+254757662968'; // your WhatsApp number with country code
+const APP_URL        = process.env.NEXTAUTH_URL   || 'https://saas-woad-nine.vercel.app';
 
 // ── Email via Resend ──────────────────────────────────────────────────────────
 export async function sendOwnerEmail({

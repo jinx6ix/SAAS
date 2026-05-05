@@ -9,25 +9,69 @@ const TENANT_ID = 'tenant_default';
 async function main() {
   console.log('🌱 Seeding database...');
 
-  // ── FIRST: Ensure the required Plan exists (referenced by Tenant) ────────
+  // ── FIRST: Ensure all three Plans exist ──────────────────────────────
+  // Starter Plan
   await prisma.plan.upsert({
-    where: { id: 'plan_professional' },
+    where: { id: 'plan_starter' },
     update: {},
     create: {
-      id: 'plan_professional',
-      name: 'Professional Plan',
-      description: 'For growing travel companies',
-      priceKES: 15000,
-      priceUSD: 100,
-      maxUsers: 20,
-      maxBookings: 1000,
-      features: JSON.stringify(['multi-user', 'advanced reports', 'api access']),
+      id: 'plan_starter',
+      name: 'Starter',
+      description: 'For small teams and solo travel agents',
+      priceKES: 3500,
+      priceUSD: 25,
+      maxUsers: 1,
+      maxBookings: 50,
+      features: JSON.stringify(['Bookings & Clients', 'Invoices', 'Vouchers', 'Itineraries', '1 User']),
       isActive: true,
     },
   });
-  console.log('✅ Plan "plan_professional" ready');
+  console.log('✅ Plan "Starter" ready');
 
-  // ── THEN: Ensure tenant_default exists (now planId is valid) ─────────────
+  // Professional Plan (already exists, but we ensure it's up‑to‑date)
+  await prisma.plan.upsert({
+    where: { id: 'plan_professional' },
+    update: {
+      name: 'Professional',
+      priceKES: 8000,
+      priceUSD: 55,
+      maxUsers: 5,
+      maxBookings: -1,
+      features: JSON.stringify(['Everything in Starter', 'Cost Sheets', 'Reports', 'Safari Rates', 'Up to 5 Users']),
+    },
+    create: {
+      id: 'plan_professional',
+      name: 'Professional',
+      description: 'For growing travel companies',
+      priceKES: 8000,
+      priceUSD: 55,
+      maxUsers: 5,
+      maxBookings: -1,
+      features: JSON.stringify(['Everything in Starter', 'Cost Sheets', 'Reports', 'Safari Rates', 'Up to 5 Users']),
+      isActive: true,
+    },
+  });
+  console.log('✅ Plan "Professional" ready');
+
+  // Agency Plan
+  await prisma.plan.upsert({
+    where: { id: 'plan_agency' },
+    update: {},
+    create: {
+      id: 'plan_agency',
+      name: 'Agency',
+      description: 'For large travel agencies and DMCs',
+      priceKES: 18000,
+      priceUSD: 125,
+      maxUsers: -1,
+      maxBookings: -1,
+      features: JSON.stringify(['Everything in Professional', 'Unlimited Users', 'White-label', 'Priority Support']),
+      isActive: true,
+    },
+  });
+  console.log('✅ Plan "Agency" ready');
+
+  // ── THEN: Ensure tenant_default exists (still using Professional plan) ─
   await prisma.tenant.upsert({
     where: { id: TENANT_ID },
     update: {},
@@ -37,7 +81,7 @@ async function main() {
       slug:               'jae-travel',
       email:              'admin@jaetravel.co.ke',
       subscriptionStatus: 'active',
-      planId:             'plan_professional',
+      planId:             'plan_professional',   // tenant on Professional plan
     },
   });
   console.log('✅ Tenant ready');
@@ -241,11 +285,14 @@ async function main() {
   });
 
   console.log('\n✅ Seeding complete!');
-  console.log('   Users: 3 · Destinations: 4 · Properties: 3 · Vehicles: 2');
+  console.log('   Plans: 3 (Starter, Professional, Agency)');
+  console.log('   Users: 4 · Destinations: 4 · Properties: 3 · Vehicles: 2');
   console.log('   Tours: 2 · Clients: 1 · Bookings: 1 · Vouchers: 2');
   console.log('\n📋 Login:');
   console.log('   admin@jaetravel.co.ke  / admin123');
   console.log('   antony@jaetravel.co.ke / employee123');
+  console.log('   dedan@jaetravel.co.ke  / employee123');
+  console.log('   owner@jaetravel.co.ke  / owner123');
 }
 
 main()

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -13,14 +13,29 @@ export default function LoginContent() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Read error from URL on mount and when searchParams change
+  useEffect(() => {
+    const errorParam = searchParams.get('error');
+    if (errorParam === 'session_active') {
+      setError('You are already logged in on another device. Please log out there first.');
+    } else if (errorParam === 'CredentialsSignin') {
+      setError('Invalid email or password.');
+    } else {
+      setError('');
+    }
+  }, [searchParams]);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError('');
     const res = await signIn('credentials', { email, password, redirect: false });
     setLoading(false);
-    if (res?.error) setError('Invalid email or password.');
-    else router.push('/dashboard');
+    if (res?.error) {
+      setError('Invalid email or password.');
+    } else {
+      router.push('/dashboard');
+    }
   }
 
   return (
@@ -38,26 +53,45 @@ export default function LoginContent() {
             </div>
           )}
           <h2 className="text-xl font-semibold text-gray-800 mb-6">Sign in to your account</h2>
-          {error && <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 mb-4 text-sm">{error}</div>}
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 mb-4 text-sm">
+              {error}
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} required
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-              <input type="password" value={password} onChange={e => setPassword(e.target.value)} required
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+              <input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              />
             </div>
-            <button type="submit" disabled={loading}
-              className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold py-3 rounded-lg transition-colors">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold py-3 rounded-lg transition-colors"
+            >
               {loading ? 'Signing in…' : 'Sign In'}
             </button>
           </form>
           <p className="text-center text-sm text-gray-500 mt-6">
             Don&apos;t have an account?{' '}
-            <Link href="/register" className="text-orange-600 font-semibold hover:underline">Start free trial →</Link>
+            <Link href="/register" className="text-orange-600 font-semibold hover:underline">
+              Start free trial →
+            </Link>
           </p>
         </div>
       </div>

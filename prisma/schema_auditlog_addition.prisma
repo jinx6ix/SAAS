@@ -1,0 +1,15 @@
+// ADD THIS TO THE BOTTOM OF prisma/schema.prisma
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String   // e.g. 'tenant.approve' | 'plan.change' | 'tenant.delete' | 'tenant.suspend'
+  tenantId  String?  // which tenant was affected
+  actorId   String?  // who did it (owner userId or 'system')
+  details   String   @default("{}") // JSON blob
+  timestamp DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([action])
+  @@index([timestamp])
+  @@index([actorId])
+}
